@@ -1,0 +1,12 @@
+# Local educational IDS rules
+# These are visibility/detection examples for authorized lab monitoring.
+
+# ICMP echo request visibility (not inherently malicious)
+alert icmp $HOME_NET any -> any any (msg:"LOCAL-NIDS ICMP echo request observed"; itype:8; sid:1000001; rev:1;)
+
+# DNS query visibility (not inherently malicious)
+alert dns $HOME_NET any -> any 53 (msg:"LOCAL-NIDS DNS query observed"; dns.query; sid:1000002; rev:1;)
+
+# Scan-like burst: many TCP SYN packets from one source to multiple destinations/ports.
+# Can also match legitimate network inventory tools; tune threshold for your environment.
+alert tcp any any -> $HOME_NET any (msg:"LOCAL-NIDS possible TCP SYN scan pattern"; flags:S; flow:stateless; detection_filter:track by_src, count 20, seconds 10; sid:1000003; rev:1;)

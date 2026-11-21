@@ -1,0 +1,21 @@
+# REFERENCE SNIPPET ONLY — merge relevant settings into /etc/suricata/suricata.yaml.
+# Do not replace the full distribution configuration with this fragment.
+
+vars:
+  address-groups:
+    HOME_NET: "[192.168.0.0/16,10.0.0.0/8,172.16.0.0/12]"
+    EXTERNAL_NET: "!$HOME_NET"
+
+default-rule-path: /var/lib/suricata/rules
+
+rule-files:
+  - suricata.rules
+  - local.rules
+
+# Ensure the main config has an enabled eve-log output.
+# Example event types to enable in the existing eve-log section:
+# - alert
+# - dns
+# - http
+# - tls
+# - flow
